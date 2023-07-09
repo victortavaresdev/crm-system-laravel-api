@@ -21,7 +21,7 @@ class Handler extends ExceptionHandler
                 return response()->json([
                     'code' => 'NOT_FOUND',
                     'message' => 'Resource not found',
-                    'status' => 404
+                    'status' => 404,
                 ], 404);
             }
         });

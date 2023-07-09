@@ -18,7 +18,6 @@ class ClientResource extends JsonResource
             'companyAddress' => $this->company_address,
             'companyCity' => $this->company_city,
             'companyZip' => $this->company_zip,
-            'userId' => $this->user_id,
         ];
     }
 }

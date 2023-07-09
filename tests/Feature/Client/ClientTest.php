@@ -2,7 +2,8 @@
 
 namespace Tests\Feature\Client;
 
-use App\Models\{Client, User};
+use App\Models\Client;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -34,7 +35,7 @@ class ClientTest extends TestCase
         // Assert
         $response
             ->assertStatus(201)
-            ->assertJsonCount(9, 'data')
+            ->assertJsonCount(8, 'data')
             ->assertJsonIsObject('data');
     }
 
@@ -42,7 +43,7 @@ class ClientTest extends TestCase
     {
         // Arrange
         $clientData = Client::factory()->raw([
-            'contact_name' => ''
+            'contact_name' => '',
         ]);
 
         // Act
@@ -59,7 +60,7 @@ class ClientTest extends TestCase
     {
         // Arrange
         $clientData = Client::factory()->raw([
-            'contact_email' => $this->client->contact_email
+            'contact_email' => $this->client->contact_email,
         ]);
 
         // Act
@@ -101,7 +102,7 @@ class ClientTest extends TestCase
         // Assert
         $response
             ->assertStatus(200)
-            ->assertJsonCount(9, 'data')
+            ->assertJsonCount(8, 'data')
             ->assertJsonIsObject('data');
     }
 
@@ -122,18 +123,21 @@ class ClientTest extends TestCase
     public function test_update_client_with_valid_data_successful(): void
     {
         // Arrange
+        $updatedClient = Client::factory()->raw();
 
         // Act
-        $response = $this->actingAs($this->user)->patchJson(
-            "{$this->clientURI}/{$this->client->id}/update",
-            ['contact_name' => 'New client']
-        );
+        $response = $this
+            ->actingAs($this->user)
+            ->putJson(
+                "{$this->clientURI}/{$this->client->id}/update",
+                $updatedClient
+            );
 
         // Assert
         $response
             ->assertStatus(200);
         $this
-            ->assertDatabaseHas('clients', ['contact_name' => 'New client']);
+            ->assertDatabaseHas('clients', ['contact_name' => $updatedClient['contact_name']]);
     }
 
     public function test_update_client_with_invalid_data_returns_error(): void
@@ -141,10 +145,12 @@ class ClientTest extends TestCase
         // Arrange
 
         // Act
-        $response = $this->actingAs($this->user)->patchJson(
-            "{$this->clientURI}/{$this->client->id}/update",
-            ['contact_name' => '']
-        );
+        $response = $this
+            ->actingAs($this->user)
+            ->putJson(
+                "{$this->clientURI}/{$this->client->id}/update",
+                ['contact_name' => '']
+            );
 
         // Assert
         $response

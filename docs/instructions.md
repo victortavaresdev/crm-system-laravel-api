@@ -1,11 +1,15 @@
-# Commands:
-
--   php artisan l5-swagger:generate (Update documentation)
-
 # API Documentation:
 
 -   http://localhost:8000/api/v1/docs
 
-# L5-Swagger package info:
+# Command to update Scribe Docs:
 
--   https://github.com/DarkaOnLine/L5-Swagger
+-   php artisan scribe:generate
+
+# Command to clear all the cache:
+
+-   php artisan clear:cache
+
+# Command to generate Test Coverage:
+
+-   php artisan test --coverage

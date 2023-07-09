@@ -39,7 +39,7 @@ class UserTest extends TestCase
     {
         // Arrange
         $userData = User::factory()->raw([
-            'first_name' => ''
+            'first_name' => '',
         ]);
 
         // Act
@@ -55,7 +55,7 @@ class UserTest extends TestCase
     {
         // Arrange
         $userData = User::factory()->raw([
-            'email' => $this->user->email
+            'email' => $this->user->email,
         ]);
 
         // Act
@@ -100,18 +100,21 @@ class UserTest extends TestCase
     public function test_update_user_with_valid_data_successful(): void
     {
         // Arrange
+        $updatedUser = User::factory()->raw();
 
         // Act
-        $response = $this->actingAs($this->user)->patchJson(
-            "{$this->userURI}/{$this->user->id}/update",
-            ['first_name' => 'New user']
-        );
+        $response = $this
+            ->actingAs($this->user)
+            ->putJson(
+                "{$this->userURI}/{$this->user->id}/update",
+                $updatedUser
+            );
 
         // Assert
         $response
             ->assertStatus(200);
         $this
-            ->assertDatabaseHas('users', ['first_name' => 'New user']);
+            ->assertDatabaseHas('users', ['first_name' => $updatedUser['first_name']]);
     }
 
     public function test_update_user_with_invalid_data_returns_error(): void
@@ -119,10 +122,12 @@ class UserTest extends TestCase
         // Arrange
 
         // Act
-        $response = $this->actingAs($this->user)->patchJson(
-            "{$this->userURI}/{$this->user->id}/update",
-            ['first_name' => '']
-        );
+        $response = $this
+            ->actingAs($this->user)
+            ->putJson(
+                "{$this->userURI}/{$this->user->id}/update",
+                ['first_name' => '']
+            );
 
         // Assert
         $response

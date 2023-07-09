@@ -2,56 +2,40 @@
 
 namespace App\Services\Project;
 
+use App\DTO\Project\ProjectDTO;
+use App\Exceptions\Custom\NotFoundException;
+use App\Models\Client;
 use App\Models\Project;
-use App\DTO\Project\{CreateProjectDTO, UpdateProjectDTO};
-use App\Exceptions\CustomExceptions\BadRequestException;
-use App\Exceptions\CustomExceptions\NotFoundException;
-use App\Repositories\Interfaces\ClientRepositoryInterface;
-use App\Repositories\Interfaces\ProjectRepositoryInterface;
 
 class ProjectService
 {
-    public function __construct(
-        protected ClientRepositoryInterface $clientRepository,
-        protected ProjectRepositoryInterface $projectRepository
-    ) {
-    }
-
-    public function store(CreateProjectDTO $dto): Project
+    public function store(ProjectDTO $dto): Project
     {
-        $client = $this->clientRepository->findByContactName($dto->assigned_client);
-        if (!$client) throw new BadRequestException('Client not registered');
+        $client = Client::where('contact_name', $dto->assigned_client)->first();
+        if (!$client)
+            throw new NotFoundException('Client not found');
 
-        $dto->assigned_client = $client->id;
+        $project = auth()->user()->projects()->create(['client_id' => $client->id, ...(array) $dto]);
 
-        $project = $this->projectRepository->create($dto);
         return $project;
     }
 
     public function index()
     {
-        $projects = $this->projectRepository->findAll();
+        $projects = auth()->user()->projects()->paginate(10);
 
         return $projects;
     }
 
-    public function show(string $id): Project|null
+    public function update(Project $project, ProjectDTO $dto): Project|null
     {
-        $project = $this->projectRepository->findById($id);
-        if (!$project) throw new NotFoundException('Project not found');
+        $project->update((array) $dto);
 
         return $project;
     }
 
-    public function update(string $id, UpdateProjectDTO $dto): Project|null
+    public function destroy(Project $project): void
     {
-        $project = $this->projectRepository->update($id, $dto);
-
-        return $project;
-    }
-
-    public function destroy(string $id): void
-    {
-        $this->projectRepository->delete($id);
+        $project->delete();
     }
 }

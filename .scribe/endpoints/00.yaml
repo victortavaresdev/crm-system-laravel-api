@@ -1,0 +1,283 @@
+name: 'Auth endpoints'
+description: ''
+endpoints:
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/auth/logout
+    metadata:
+      groupName: 'Auth endpoints'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'POST Logout'
+      description: 'Revoke API Token from user.'
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"message": "OK"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 401
+        content: '{"message": "Unauthenticated"}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer kEDecbvgf146Pad36Z5a8hV'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/v1/auth/profile
+    metadata:
+      groupName: 'Auth endpoints'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'GET Profile'
+      description: 'Get user profile data.'
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"message": "OK"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 401
+        content: '{"message": "Unauthenticated"}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer VcgZa1kfhebdvPE456D86a3'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/auth/forgot-password
+    metadata:
+      groupName: 'Auth endpoints'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'POST Forgot Password'
+      description: 'Send forgot password link to user email.'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      email:
+        name: email
+        description: 'Must be a valid email address.'
+        required: true
+        example: walter.gino@example.net
+        type: string
+        custom: []
+    cleanBodyParameters:
+      email: walter.gino@example.net
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"message": "OK"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 404
+        content: '{"message": "Email not found"}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/auth/reset-password
+    metadata:
+      groupName: 'Auth endpoints'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'POST Reset Password'
+      description: 'Reset user password.'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      token:
+        name: token
+        description: ''
+        required: true
+        example: facilis
+        type: string
+        custom: []
+      email:
+        name: email
+        description: 'Must be a valid email address. Must not be greater than 255 characters.'
+        required: true
+        example: keon17@example.com
+        type: string
+        custom: []
+      password:
+        name: password
+        description: 'Must be at least 6 characters. Must not be greater than 255 characters.'
+        required: true
+        example: ~UozBE~_wnw
+        type: string
+        custom: []
+      password_confirmation:
+        name: password_confirmation
+        description: 'Must be at least 6 characters. Must not be greater than 255 characters.'
+        required: true
+        example: gbwrobmzhfyptxmxtcyepdva
+        type: string
+        custom: []
+    cleanBodyParameters:
+      token: facilis
+      email: keon17@example.com
+      password: ~UozBE~_wnw
+      password_confirmation: gbwrobmzhfyptxmxtcyepdva
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"message": "OK"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 400
+        content: '{"message": "Bad Request"}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/auth/login
+    metadata:
+      groupName: 'Auth endpoints'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'POST Login'
+      description: 'Login with the existing user.'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      email:
+        name: email
+        description: 'Must be a valid email address. Must not be greater than 255 characters.'
+        required: true
+        example: lukas39@example.com
+        type: string
+        custom: []
+      password:
+        name: password
+        description: 'Must be at least 6 characters. Must not be greater than 255 characters.'
+        required: true
+        example: 'cr"5$QG\yJK42t`m'
+        type: string
+        custom: []
+    cleanBodyParameters:
+      email: lukas39@example.com
+      password: 'cr"5$QG\yJK42t`m'
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"accessToken":"1|a9ZcYzIrLURVGx6Xe41HKj1CrNsxRxe4pLA2oISo"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 400
+        content: '{"message": "Invalid credentials"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 422
+        content: '{"message": "Validation errors"}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []

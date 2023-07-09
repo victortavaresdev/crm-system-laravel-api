@@ -2,29 +2,28 @@
 
 namespace App\Services\Auth;
 
+use App\DTO\Auth\LoginDTO;
+use App\DTO\Auth\ResetPasswordDTO;
+use App\Exceptions\Custom\BadRequestException;
+use App\Exceptions\Custom\NotFoundException;
 use App\Models\User;
-use App\DTO\Auth\{LoginDTO, ResetPasswordDTO};
-use App\Exceptions\CustomExceptions\BadRequestException;
-use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Support\Facades\{Auth, Hash, Password};
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 
 class AuthService
 {
-    public function __construct(
-        protected UserRepositoryInterface $userRepository
-    ) {
-    }
-
-    public function login(LoginDTO $dto): string
+    public function login(LoginDTO $dto, string|null $userAgent): string
     {
-        $credentials = ['email' => $dto->email, 'password' => $dto->password];
-        if (!Auth::attempt($credentials)) throw new BadRequestException('Invalid credentials');
+        $user = User::where('email', $dto->email)->first();
+        if (!$user || !Hash::check($dto->password, $user->password))
+            throw new BadRequestException('Invalid credentials');
 
-        $user = $this->userRepository->findByEmail($dto->email);
+        $device = substr($userAgent ?? '', 0, 255);
         $user->tokens()->delete();
-        $token = $user->createToken('API Token of ' . $user->first_name)->plainTextToken;
+
+        $token = $user->createToken($device)->plainTextToken;
 
         return $token;
     }
@@ -32,25 +31,19 @@ class AuthService
     public function forgotPassword(array $email): string
     {
         $status = Password::sendResetLink($email);
-        if ($status !== Password::RESET_LINK_SENT) throw new BadRequestException('Email not registered');
+        if ($status !== Password::RESET_LINK_SENT)
+            throw new NotFoundException('Email not found');
 
         return $status;
     }
 
     public function resetPassword(ResetPasswordDTO $dto): string
     {
-        $credentials = [
-            'token' => $dto->token,
-            'email' => $dto->email,
-            'password' => $dto->password,
-            'password_confirmation' => $dto->password_confirmation
-        ];
-
         $status = Password::reset(
-            $credentials,
+            (array) $dto,
             function (User $user, string $password) {
                 $user->forceFill([
-                    'password' => Hash::make($password)
+                    'password' => Hash::make($password),
                 ])->setRememberToken(Str::random(60));
 
                 $user->save();
@@ -59,7 +52,8 @@ class AuthService
             }
         );
 
-        if ($status !== Password::PASSWORD_RESET) throw new BadRequestException('Reset password failure');
+        if ($status !== Password::PASSWORD_RESET)
+            throw new BadRequestException('Reset password failure');
 
         return $status;
     }

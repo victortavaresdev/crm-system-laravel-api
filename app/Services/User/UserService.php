@@ -2,44 +2,32 @@
 
 namespace App\Services\User;
 
+use App\DTO\User\UserDTO;
+use App\Exceptions\Custom\ConflictException;
 use App\Models\User;
-use App\DTO\User\{CreateUserDTO, UpdateUserDTO};
-use App\Exceptions\CustomExceptions\{ConflictException, NotFoundException};
-use App\Repositories\Interfaces\UserRepositoryInterface;
 
 class UserService
 {
-    public function __construct(
-        protected UserRepositoryInterface $userRepository
-    ) {
-    }
-
-    public function store(CreateUserDTO $dto): User
+    public function store(UserDTO $dto): User
     {
-        $userEmail = $this->userRepository->findByEmail($dto->email);
-        if ($userEmail) throw new ConflictException('Email already registered');
+        $userEmail = User::where('email', $dto->email)->first();
+        if ($userEmail)
+            throw new ConflictException('Email already registered');
 
-        $user = $this->userRepository->create($dto);
-        return $user;
-    }
-
-    public function show(string $id): User|null
-    {
-        $user = $this->userRepository->findById($id);
-        if (!$user) throw new NotFoundException('User not found');
+        $user = User::create((array) $dto);
 
         return $user;
     }
 
-    public function update(string $id, UpdateUserDTO $dto): User|null
+    public function update(User $user, UserDTO $dto): User|null
     {
-        $user = $this->userRepository->update($id, $dto);
+        $user->update((array) $dto);
 
         return $user;
     }
 
-    public function destroy(string $id): void
+    public function destroy(User $user): void
     {
-        $this->userRepository->delete($id);
+        $user->delete();
     }
 }

@@ -2,7 +2,9 @@
 
 namespace Tests;
 
-use App\Models\{Client, Project, User};
+use App\Models\Client;
+use App\Models\Project;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 

@@ -2,49 +2,39 @@
 
 namespace App\Services\Client;
 
+use App\DTO\Client\ClientDTO;
+use App\Exceptions\Custom\ConflictException;
 use App\Models\Client;
-use App\DTO\Client\{CreateClientDTO, UpdateClientDTO};
-use App\Exceptions\CustomExceptions\{ConflictException, NotFoundException};
-use App\Repositories\Interfaces\ClientRepositoryInterface;
 
 class ClientService
 {
-    public function __construct(
-        protected ClientRepositoryInterface $clientRepository
-    ) {
-    }
-
-    public function store(CreateClientDTO $dto): Client
+    public function store(ClientDTO $dto): Client
     {
-        $clientEmail = $this->clientRepository->findByEmail($dto->contact_email);
-        if ($clientEmail) throw new ConflictException('Email already registered');
+        $clientEmail = Client::where(['contact_email' => $dto->contact_email])->first();
+        if ($clientEmail)
+            throw new ConflictException('Email already registered');
 
-        $client = $this->clientRepository->create($dto);
+        $client = auth()->user()->clients()->create((array) $dto);
+
         return $client;
     }
 
     public function index()
     {
-        $clients = $this->clientRepository->findAll();
+        $clients = auth()->user()->clients()->paginate(10);
+
         return $clients;
     }
 
-    public function show(string $id): Client|null
+    public function update(Client $client, ClientDTO $dto): Client|null
     {
-        $client = $this->clientRepository->findById($id);
-        if (!$client) throw new NotFoundException('Client not found');
+        $client->update((array) $dto);
 
         return $client;
     }
 
-    public function update(string $id, UpdateClientDTO $dto): Client|null
+    public function destroy(Client $client): void
     {
-        $client = $this->clientRepository->update($id, $dto);
-        return $client;
-    }
-
-    public function destroy(string $id): void
-    {
-        $this->clientRepository->delete($id);
+        $client->delete();
     }
 }

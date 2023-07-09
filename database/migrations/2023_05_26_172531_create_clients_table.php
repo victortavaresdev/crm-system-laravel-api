@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('company_address');
             $table->string('company_city');
             $table->string('company_zip');
-            $table->foreignUuid('user_id')->constrained('users')->delete('cascade');
+            $table->foreignUuid('user_id')->constrained()->delete('cascade');
             $table->timestamps();
         });
     }

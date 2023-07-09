@@ -2,7 +2,9 @@
 
 namespace Tests\Feature\Project;
 
-use App\Models\{Client, User, Project};
+use App\Models\Client;
+use App\Models\Project;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -27,7 +29,7 @@ class ProjectTest extends TestCase
     {
         // Arrange
         $projectData = Project::factory()->raw([
-            'assigned_client' => $this->client->contact_name,
+            'assigned_client' => $this->client->contact_name
         ]);
 
         // Act
@@ -38,7 +40,7 @@ class ProjectTest extends TestCase
         // Assert
         $response
             ->assertStatus(201)
-            ->assertJsonCount(7, 'data')
+            ->assertJsonCount(5, 'data')
             ->assertJsonIsObject('data');
     }
 
@@ -88,24 +90,25 @@ class ProjectTest extends TestCase
         // Assert
         $response
             ->assertStatus(200)
-            ->assertJsonCount(7, 'data')
+            ->assertJsonCount(5, 'data')
             ->assertJsonIsObject('data');
     }
 
     public function test_update_project_with_valid_data_successful(): void
     {
         // Arrange
+        $updatedProject = Project::factory()->raw();
 
         // Act
         $response = $this
             ->actingAs($this->user)
-            ->patchJson("{$this->projectURI}/{$this->project->id}/update", ['title' => 'New project']);
+            ->putJson("{$this->projectURI}/{$this->project->id}/update", $updatedProject);
 
         // Assert
         $response
             ->assertStatus(200);
         $this
-            ->assertDatabaseHas('projects', ['title' => 'New project']);
+            ->assertDatabaseHas('projects', ['title' => $updatedProject['title']]);
     }
 
     public function test_update_project_with_invalid_data_returns_error(): void
@@ -115,7 +118,7 @@ class ProjectTest extends TestCase
         // Act
         $response = $this
             ->actingAs($this->user)
-            ->patchJson("{$this->projectURI}/{$this->project->id}/update", ['title' => '']);
+            ->putJson("{$this->projectURI}/{$this->project->id}/update", ['title' => '']);
 
         // Assert
         $response

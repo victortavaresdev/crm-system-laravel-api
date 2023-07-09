@@ -13,9 +13,9 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('title');
             $table->text('description');
-            $table->foreignUuid('user_id')->constrained('users')->delete('cascade');
-            $table->foreignUuid('client_id')->constrained('clients')->delete('cascade');
-            $table->string('deadline');
+            $table->foreignUuid('user_id')->constrained()->delete('cascade');
+            $table->foreignUuid('client_id')->constrained()->delete('cascade');
+            $table->date('deadline');
             $table->enum('status', array_column(ProjectStatus::cases(), 'name'));
             $table->timestamps();
         });

@@ -24,32 +24,32 @@ class AuthTest extends TestCase
         ]);
     }
 
-    public function test_login_user_with_correct_credentials(): void
+    public function test_login_returns_access_token_with_correct_credentials(): void
     {
         // Arrange
 
         // Act
         $response = $this->post("{$this->authURI}/login", [
             'email' => 'teste@gmail.com',
-            'password' => 'teste123'
+            'password' => 'teste123',
         ]);
 
         // Assert
         $response
             ->assertStatus(200)
             ->assertJsonStructure([
-                'accessToken'
+                'accessToken',
             ]);
     }
 
-    public function test_login_user_with_incorrect_credentials_returns_error(): void
+    public function test_login_with_incorrect_credentials_returns_error(): void
     {
         // Arrange
 
         // Act
         $response = $this->post("{$this->authURI}/login", [
             'email' => 'teste@gmail.com',
-            'password' => 'testeteste'
+            'password' => 'testeteste',
         ]);
 
         // Assert
@@ -85,7 +85,7 @@ class AuthTest extends TestCase
         $response
             ->assertStatus(200)
             ->assertJsonStructure([
-                'message'
+                'message',
             ]);
     }
 
@@ -100,7 +100,7 @@ class AuthTest extends TestCase
         // Assert
         Notification::assertNothingSent();
         $response
-            ->assertStatus(400);
+            ->assertStatus(404);
     }
 
     public function test_user_can_reset_password_with_valid_token(): void
@@ -117,14 +117,14 @@ class AuthTest extends TestCase
                 'token' => $notification->token,
                 'email' => $user->email,
                 'password' => 'password',
-                'password_confirmation' => 'password'
+                'password_confirmation' => 'password',
             ]);
 
             // Assert
             $response
                 ->assertStatus(200)
                 ->assertJsonStructure([
-                    'message'
+                    'message',
                 ]);
 
             return true;
@@ -147,7 +147,7 @@ class AuthTest extends TestCase
             ->assertStatus(403);
     }
 
-    public function test_authenticated_user_is_not_authorized_to_access_another_client_data(): void
+    public function test_authenticated_user_is_not_authorized_to_access_another_user_client_data(): void
     {
         // Arrange
         $user1 = $this->createUser(null, ['email' => 'teste1@gmail.com']);
@@ -165,7 +165,7 @@ class AuthTest extends TestCase
             ->assertStatus(403);
     }
 
-    public function test_authenticated_user_is_not_authorized_to_access_another_project_data(): void
+    public function test_authenticated_user_is_not_authorized_to_access_another_user_project_data(): void
     {
         // Arrange
         $user1 = $this->createUser(null, ['email' => 'teste1@gmail.com']);

@@ -13,9 +13,9 @@ class UserFactory extends Factory
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
             'email' => fake()->unique()->safeEmail(),
-            'password' => 'password',
+            'password' => 'test_password',
             'address' => fake()->address(),
-            'phone_number' => '(31) 94040-7070',
+            'phone_number' => fake()->phoneNumber(),
             'remember_token' => Str::random(10),
         ];
     }

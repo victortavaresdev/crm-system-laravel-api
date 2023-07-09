@@ -17,7 +17,7 @@ class Project extends Model
         'user_id',
         'client_id',
         'deadline',
-        'status'
+        'status',
     ];
 
     public function user(): BelongsTo

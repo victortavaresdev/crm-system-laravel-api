@@ -1,0 +1,391 @@
+name: 'Project endpoints'
+description: ''
+endpoints:
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/projects/create
+    metadata:
+      groupName: 'Project endpoints'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'POST Project'
+      description: 'Create a new project.'
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      title:
+        name: title
+        description: 'Must not be greater than 255 characters.'
+        required: true
+        example: torstqpqoooovfl
+        type: string
+        custom: []
+      description:
+        name: description
+        description: 'Must not be greater than 1000 characters.'
+        required: true
+        example: 'Officiis illo provident iusto et.'
+        type: string
+        custom: []
+      deadline:
+        name: deadline
+        description: 'Must be a valid date.'
+        required: true
+        example: '2023-07-09T21:49:30'
+        type: string
+        custom: []
+      assigned_client:
+        name: assigned_client
+        description: 'Must not be greater than 255 characters.'
+        required: false
+        example: bfyuykngweiptuthyncqju
+        type: string
+        custom: []
+      status:
+        name: status
+        description: 'Must be one of <code>Open</code>, <code>In_Progress</code>, <code>Cancelled</code>, <code>Blocked</code>, or <code>Completed</code>.'
+        required: true
+        example: Open
+        type: string
+        custom: []
+    cleanBodyParameters:
+      title: torstqpqoooovfl
+      description: 'Officiis illo provident iusto et.'
+      deadline: '2023-07-09T21:49:30'
+      assigned_client: bfyuykngweiptuthyncqju
+      status: Open
+    fileParameters: []
+    responses:
+      -
+        status: 201
+        content: '{"message":"Created"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 400
+        content: '{"message": "Bad Request"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 409
+        content: '{"message": "Conflict"}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer gvca5khVebEPdfDZ643168a'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/v1/projects
+    metadata:
+      groupName: 'Project endpoints'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'GET Projects'
+      description: 'Get projects list.'
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"message":"OK"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 401
+        content: '{"message": "Unauthenticated"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 403
+        content: '{"message": "Forbidden"}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 58v4k61cDZeVE6adPghb3af'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/v1/projects/{project_id}'
+    metadata:
+      groupName: 'Project endpoints'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'GET Project'
+      description: 'Get project data.'
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      project_id:
+        name: project_id
+        description: 'The ID of the project.'
+        required: true
+        example: 999ba4d6-7959-4a3a-89b6-735e996a1c2b
+        type: string
+        custom: []
+    cleanUrlParameters:
+      project_id: 999ba4d6-7959-4a3a-89b6-735e996a1c2b
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"message":"OK"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 401
+        content: '{"message": "Unauthenticated"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 403
+        content: '{"message": "Forbidden"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 404
+        content: '{"message": "Not Found"}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer adaV3ZDEegbfk1c6P4568hv'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - PUT
+    uri: 'api/v1/projects/{project_id}/update'
+    metadata:
+      groupName: 'Project endpoints'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'PUT Project'
+      description: 'Update project data.'
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      project_id:
+        name: project_id
+        description: 'The ID of the project.'
+        required: true
+        example: 999ba4d6-7959-4a3a-89b6-735e996a1c2b
+        type: string
+        custom: []
+    cleanUrlParameters:
+      project_id: 999ba4d6-7959-4a3a-89b6-735e996a1c2b
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      title:
+        name: title
+        description: 'Must not be greater than 255 characters.'
+        required: true
+        example: bqzg
+        type: string
+        custom: []
+      description:
+        name: description
+        description: 'Must not be greater than 1000 characters.'
+        required: true
+        example: 'Repellendus pariatur fugiat beatae quo nihil doloremque.'
+        type: string
+        custom: []
+      deadline:
+        name: deadline
+        description: 'Must be a valid date.'
+        required: true
+        example: '2023-07-09T21:49:30'
+        type: string
+        custom: []
+      assigned_client:
+        name: assigned_client
+        description: 'Must not be greater than 255 characters.'
+        required: false
+        example: lhtqnmwlgmeuyeatyqvkjjb
+        type: string
+        custom: []
+      status:
+        name: status
+        description: 'Must be one of <code>Open</code>, <code>In_Progress</code>, <code>Cancelled</code>, <code>Blocked</code>, or <code>Completed</code>.'
+        required: true
+        example: In_Progress
+        type: string
+        custom: []
+    cleanBodyParameters:
+      title: bqzg
+      description: 'Repellendus pariatur fugiat beatae quo nihil doloremque.'
+      deadline: '2023-07-09T21:49:30'
+      assigned_client: lhtqnmwlgmeuyeatyqvkjjb
+      status: In_Progress
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"message":"OK"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 400
+        content: '{"message": "Bad Request"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 401
+        content: '{"message": "Unauthenticated"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 403
+        content: '{"message": "Forbidden"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 404
+        content: '{"message": "Not Found"}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer PdZ58h4vcDgVfakaE3b661e'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - DELETE
+    uri: 'api/v1/projects/{project_id}/delete'
+    metadata:
+      groupName: 'Project endpoints'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'DELETE Project'
+      description: 'Delete project data.'
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      project_id:
+        name: project_id
+        description: 'The ID of the project.'
+        required: true
+        example: 999ba4d6-7959-4a3a-89b6-735e996a1c2b
+        type: string
+        custom: []
+    cleanUrlParameters:
+      project_id: 999ba4d6-7959-4a3a-89b6-735e996a1c2b
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"message":"OK"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 401
+        content: '{"message": "Unauthenticated"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 403
+        content: '{"message": "Forbidden"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 404
+        content: '{"message": "Not Found"}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 13vb5kEa6Daed8Pf6cV4hgZ'
+    controller: null
+    method: null
+    route: null
+    custom: []
