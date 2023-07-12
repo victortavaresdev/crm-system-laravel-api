@@ -19,7 +19,9 @@
   <a href="#license">License</a>
 </p>
 
-<img src="https://github.com/victortavaresdev/victortavaresdev/blob/main/crm.jpg" alt="crm system" align="center"/>
+<p align="center">
+  <img src="https://github.com/victortavaresdev/victortavaresdev/blob/main/crm.jpg" alt="crm system" />
+</p>
 
 ## Key Features
 
