@@ -4,29 +4,28 @@ namespace App\Policies;
 
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Auth\Access\Response;
 
 class UserPolicy
 {
     use HandlesAuthorization;
 
-    public function view(User $user, User $owner): Response
+    public function view(User $user, User $owner)
     {
-        return $this->verifyAuthorization($user, $owner);
+        return $this->verifyAuth($user, $owner);
     }
 
-    public function update(User $user, User $owner): Response
+    public function update(User $user, User $owner)
     {
-        return $this->verifyAuthorization($user, $owner);
+        return $this->verifyAuth($user, $owner);
     }
 
-    public function delete(User $user, User $owner): Response
+    public function delete(User $user, User $owner)
     {
-        return $this->verifyAuthorization($user, $owner);
+        return $this->verifyAuth($user, $owner);
     }
 
-    private function verifyAuthorization(User $user, User $owner): Response
+    private function verifyAuth(User $user, User $owner)
     {
-        return $user->id === $owner->id ? Response::allow() : Response::deny();
+        return $user->id === $owner->id;
     }
 }
